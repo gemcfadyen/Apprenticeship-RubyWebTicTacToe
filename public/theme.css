@@ -1,4 +1,29 @@
-background {
-  background-color:black;
-  background-image: background.jpg
+body {
+  background-image: url("background.jpg");
+  color: green;
+  text-align: center;
+}
+
+p {
+  color: navy;
+  text-align: center;
+}
+
+
+table, td, tr {
+  text-align: center;
+  color: green;
+  table-layout: auto;
+  border-collapse: collapse;
+  border-spacing: 0.5rem;
+  width: 25%;
+  height: 25%;
+  border: 1px solid green;
+  margin-left:auto;
+  margin-right:auto;
+
+}
+
+a {
+  color: green;
 }
