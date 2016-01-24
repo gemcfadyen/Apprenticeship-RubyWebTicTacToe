@@ -7,24 +7,26 @@
   </head>
 
   <body class='container'>
-      <p>Welcome To Tic Tac Toe</p>
+    <p>Welcome To Tic Tac Toe</p>
 
-      <table class="center">
+    <table class="center">
+      <% @original_rows = @formatted_rows.dup %>
+      <% @formatted_rows.each do |row| %>
         <tr>
-          <td><a href="/next_move?move-taken=0"/>1</td>
-            <td><a href="/next_move?move-taken=1"/>2</td>
-              <td><a href="/next_move?move-taken=2"/>3</td>
-              </tr>
-              <tr>
-                <td><a href="/next_move?move-taken=3"/>4</td>
-                  <td><a href="/next_move?move-taken=4"/>5</td>
-                    <td><a href="/next_move?move-taken=5"/>6</td>
-                    </tr>
-                    <tr>
-                      <td><a href="/next_move?move-taken=6"/>7</td>
-                        <td><a href="/next_move?move-taken=7"/>8</td>
-                          <td><a href="/next_move?move-taken=8"/>9</td>
-                          </tr>
-                        </table>
-                    </body>
-                  </html>
+          <% row.each do |cell| %>
+            <td>
+              <% if @valid_moves.include?(cell.to_s) %> 
+                <%= cell.to_s %>
+             <% else %>
+               <a href="/next_move?move-taken=<%= cell.to_s %>&grid=<%=@formatted_rows.flatten.to_s.delete("\"")%>"><%= cell.to_s %>
+             </td>
+              <% end %>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
+   
+      <h1><%= @game_status %> 
+      
+    </body>
+  </html>
