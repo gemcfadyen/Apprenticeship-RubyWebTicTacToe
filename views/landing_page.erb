@@ -17,7 +17,7 @@
               <% if @valid_moves.include?(cell.to_s) %>
                 <%= cell.to_s %>
              <% else %>
-               <% if @game_status.nil? %> 
+               <% if @game_status.nil? %>
              <a href="/next_move?move-taken=<%= cell.to_s %>&grid=<%=@formatted_rows.flatten.to_s.delete("\"")%>">
              <% end %>
                <%= cell.to_s %>
@@ -28,7 +28,7 @@
         <% end %>
       </table>
 
-      <h1><%= @game_status %> 
+      <h1><%= @game_status %>
 
     </body>
   </html>

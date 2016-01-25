@@ -1,6 +1,6 @@
 require 'board'
 
-class EmptyCellsToOneIndexedBoardConverter
+class OneIndexedGridFormatter
 
   def format(board)
     rows = board.grid_for_display
@@ -8,7 +8,7 @@ class EmptyCellsToOneIndexedBoardConverter
 
     formatted_rows = rows.map.with_index do |row, row_number|
       offset = dimension * row_number
-      formatted_cells =  row.map.with_index do  |cell, cell_index| 
+      formatted_cells =  row.map.with_index do  |cell, cell_index|
         cell.nil? ? cell_index + 1 + offset : cell
       end
     end

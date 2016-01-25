@@ -10,8 +10,6 @@ class Board
 
   def make_move(index, symbol)
     copy_of_grid = grid.dup
-
-    p "updating the board at " + index.to_s + "  with symbol " + symbol.to_s
     copy_of_grid[index] = symbol
     Board.new(copy_of_grid)
   end
@@ -38,7 +36,6 @@ class Board
   end
 
   def grid_for_display
-    p "inside board " + rows.to_s
     rows
   end
 

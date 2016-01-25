@@ -1,8 +1,8 @@
-require 'empty_cells_to_one_indexed_board_converter'
+require 'one_indexed_grid_formatter'
 require 'player_symbols'
 
-RSpec.describe EmptyCellsToOneIndexedBoardConverter do
-  let(:converter) { EmptyCellsToOneIndexedBoardConverter.new }
+RSpec.describe OneIndexedGridFormatter do
+  let(:converter) { OneIndexedGridFormatter.new }
 
   it "converts empty board to one indexed" do
     expect(converter.format(Board.new)).to eq [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
