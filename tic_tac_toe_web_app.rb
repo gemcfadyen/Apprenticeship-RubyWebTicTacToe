@@ -26,15 +26,13 @@ get '/next_move' do
   board = adapter.translate(contents_of_board)
   p "board returned from adapter is " + board.grid_for_display.to_s
 
-  #######
-
   web_game = WebGame.new
   new_board =  web_game.make_move(board, @move.to_i - 1)
   p "After move has been placed the new board: " + new_board.grid_for_display.to_s
 
   @formatted_rows = EmptyCellsToOneIndexedBoardConverter::new.format(new_board)
   @valid_moves = [PlayerSymbols::X.to_s, PlayerSymbols::O.to_s]
-  @game_status = web_game.print_game_status(new_board) 
+  @game_status = web_game.print_game_status(new_board)
   erb :landing_page
 end
 
