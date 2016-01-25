@@ -8,4 +8,4 @@ require 'tic_tac_toe_web_app'
 
 #TicTacToeWebApp.run!
 
-ruby lib/tic_tac_toe_web_app.rb
+ruby tic_tac_toe_web_app.rb

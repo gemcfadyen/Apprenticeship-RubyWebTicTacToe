@@ -4,58 +4,38 @@ require 'sinatra/base'
 $LOAD_PATH << File.expand_path("../lib", __FILE__)
 require 'board'
 require 'player_symbols'
-require 'web_board_displayer'
+require 'empty_cells_to_one_indexed_board_converter'
+require 'web_display_to_board_adapter'
+require 'web_game'
 
 get '/' do
-  @formatted_rows = WebBoardDisplayer::new.format(Board.new)
+  @formatted_rows = EmptyCellsToOneIndexedBoardConverter::new.format(Board.new)
   @valid_moves = PlayerSymbols::all
   erb :landing_page
 end
 
 get '/next_move' do
-
-  p "*** User has taken a turn, - update the board and display new grid"
-
   @move = params['move-taken']
   p "*** User selected #{@move}"
 
   contents_of_board = params['grid']
   p "*** grid to update is " + contents_of_board.to_s
 
-  # create a new board from this, update it
-  #
   p "contents of board is: " +  contents_of_board.to_s
-  grid = contents_of_board.delete("[").delete("]").delete(" ").split(",").map do |n|
-    if is_number(n)
-      nil 
-    else
-      n
-    end
+  adapter = WebDisplayToBoardAdapter.new
+  board = adapter.translate(contents_of_board)
+  p "board returned from adapter is " + board.grid_for_display.to_s
 
-  end
+  #######
 
-  board =  Board.new(grid)
-  new_board = board.make_move(@move.to_i - 1, PlayerSymbols::X)
-  p "Updated board is : " + new_board.grid_for_display.to_s
-  dimension = 3
-  @formatted_rows = new_board.grid_for_display.map.with_index do |row, o|
-    p "index of outer rows is: " + o.to_s
-    offset = dimension * o
-    p "offset is : "  + offset.to_s
-    formatted_cells =  row.map.with_index do  |cell, i| 
-      cell.nil? ? i+1 + offset : cell.to_s
-    end
-  end
+  web_game = WebGame.new
+  new_board =  web_game.make_move(board, @move.to_i - 1)
+  p "After move has been placed the new board: " + new_board.grid_for_display.to_s
 
-  p "for displaying " +  @formatted_rows.to_s
+  @formatted_rows = EmptyCellsToOneIndexedBoardConverter::new.format(new_board)
   @valid_moves = [PlayerSymbols::X.to_s, PlayerSymbols::O.to_s]
-
-  if @move == "1" 
-    @game_status = "Winner!" 
-    erb :landing_page
-  else 
-    erb :landing_page
-  end
+  @game_status = web_game.print_game_status(new_board) 
+  erb :landing_page
 end
 
 def is_number(value)
