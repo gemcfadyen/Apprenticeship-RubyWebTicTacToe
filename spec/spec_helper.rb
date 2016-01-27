@@ -19,6 +19,10 @@
 
 require 'simplecov'
 
+lib = File.expand_path("../../lib", __FILE__)
+ttt_lib = File.expand_path("../../../Apprenticeship-RubyTicTacToe/lib", __FILE__)
+$:.unshift(lib).unshift(ttt_lib)
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
