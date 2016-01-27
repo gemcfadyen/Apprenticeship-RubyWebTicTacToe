@@ -2,13 +2,14 @@ ENV['RACK_ENV'] = 'test'
 
 require 'tic_tac_toe_web_app'
 require 'rack/test'
+require 'erb'
 
 RSpec.describe TicTacToeWebApp do
   include Rack::Test::Methods
 
   def app
-TicTacToeWebApp
-  #  Sinatra::Application
+    TicTacToeWebApp
+    #  Sinatra::Application
   end
 
   it "can successfully load landing page" do
