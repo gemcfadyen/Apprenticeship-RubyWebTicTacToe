@@ -11,7 +11,7 @@ class TicTacToeWebApp < Sinatra::Base
   set :public_folder, File.dirname(__FILE__) + '/../public'
 
   get '/' do
-    @formatted_rows = OneIndexedGridFormatter::new.format(Board.new)
+    @formatted_rows = OneIndexedGridFormatter.new.format(Board.new)
     @valid_moves = PlayerSymbols::all
     erb :landing_page
   end
