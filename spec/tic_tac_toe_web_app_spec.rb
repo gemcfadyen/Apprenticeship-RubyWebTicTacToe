@@ -9,7 +9,6 @@ RSpec.describe TicTacToeWebApp do
 
   def app
     TicTacToeWebApp
-    #  Sinatra::Application
   end
 
   it "can successfully load landing page" do

@@ -11,7 +11,7 @@ RSpec.describe "ERB Views" do
 
     html_doc = transform_to_html(load_template.result(binding()))
 
-    expect(count_ahref_links(html_doc).length).to eq 9
+    expect(count_ahref_links(html_doc)).to eq 9
   end
 
   it "landing page only shows links for unoccupied cells" do
@@ -20,7 +20,7 @@ RSpec.describe "ERB Views" do
 
     html_doc = transform_to_html(load_template.result(binding()))
 
-    expect(count_ahref_links(html_doc).length).to eq 6
+    expect(count_ahref_links(html_doc)).to eq 6
   end
 
   it "landing page shows moves made" do
@@ -28,10 +28,9 @@ RSpec.describe "ERB Views" do
     @valid_moves = PlayerSymbols::all.map {|i| i.to_s}
 
     html_doc = transform_to_html(load_template.result(binding()))
-    table_entries = all_table_entries(html_doc)
 
-    expect(count_number_of("O", table_entries)).to eq 2
-    expect(count_number_of("X", table_entries)).to eq 1
+    expect(count_number_of("O", all_table_entries(html_doc))).to eq 2
+    expect(count_number_of("X", all_table_entries(html_doc))).to eq 1
   end
 
   it "landing page has no links when game is won" do
@@ -41,7 +40,7 @@ RSpec.describe "ERB Views" do
 
     html_doc = transform_to_html(load_template.result(binding()))
 
-    expect(count_ahref_links(html_doc).length).to eq 0
+    expect(count_ahref_links(html_doc)).to eq 0
   end
 
   it "landing page shows game status when it is set" do
@@ -50,9 +49,8 @@ RSpec.describe "ERB Views" do
     @game_status = "Draw"
 
     html_doc = transform_to_html(load_template.result(binding()))
-    game_status_displayed = html_doc.css("p")[1].text
 
-    expect(game_status_displayed).to eq "Draw"
+    expect(game_status_displayed(html_doc)).to eq "Draw"
   end
 
   it "landing page shows no status when game status is unset" do
@@ -61,9 +59,8 @@ RSpec.describe "ERB Views" do
     @game_status = nil
 
     html_doc = transform_to_html(load_template.result(binding()))
-    game_status_displayed = html_doc.css("p")[1].text
 
-    expect(game_status_displayed).to eq ""
+    expect(game_status_displayed(html_doc)).to eq ""
   end
 
   def load_template
@@ -75,7 +72,7 @@ RSpec.describe "ERB Views" do
   end
 
   def count_ahref_links(html)
-    html.css("a")
+    html.css("a").length
   end
 
   def all_table_entries(html)
@@ -84,5 +81,9 @@ RSpec.describe "ERB Views" do
 
   def count_number_of(symbol, table_entries)
     table_entries.count(symbol)
+  end
+
+  def game_status_displayed(html)
+    html.css("p")[1].text
   end
 end
