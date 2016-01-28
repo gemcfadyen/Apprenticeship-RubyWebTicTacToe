@@ -12,10 +12,16 @@ class WebPlayer
   end
 
   def choose_move(board)
-    position
+    chosen_move = position
+    @position = nil
+    chosen_move
+  end
+
+  def is_ready?
+    position.nil? ? false : true
   end
 
   private
 
-  attr_reader :position
+  attr_reader :position, :is_ready
 end
