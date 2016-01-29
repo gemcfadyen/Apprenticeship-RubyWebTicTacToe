@@ -18,6 +18,7 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 require 'simplecov'
+SimpleCov.start
 
 lib = File.expand_path("../../lib", __FILE__)
 ttt_lib = File.expand_path("../../../Apprenticeship-RubyTicTacToe/lib", __FILE__)

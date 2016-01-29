@@ -1,9 +1,9 @@
-require 'web_player'
+require 'web_human_player'
 require 'player_symbols'
 require 'board'
 
-RSpec.describe WebPlayer do
-  let(:player) { WebPlayer.new(PlayerSymbols::X) }
+RSpec.describe WebHumanPlayer do
+  let(:player) { WebHumanPlayer.new(PlayerSymbols::X) }
 
   it "preloads the player with the next move" do
     player.set_move(3)
@@ -14,11 +14,11 @@ RSpec.describe WebPlayer do
   it "is in a ready state when a position is preloaded" do
     player.set_move(3)
 
-    expect(player.is_ready?).to be true
+    expect(player.ready?).to be true
   end
 
   it "is not ready when no position pre loaded" do
-    expect(player.is_ready?).to be false
+    expect(player.ready?).to be false
   end
 
   it "taking a move resets the ready flag" do
@@ -26,6 +26,6 @@ RSpec.describe WebPlayer do
 
     player.choose_move(Board.new)
 
-    expect(player.is_ready?).to be false
+    expect(player.ready?).to be false
   end
 end

@@ -1,6 +1,6 @@
 require 'player'
 
-class WebPlayer
+class WebHumanPlayer
   include Player
 
   def initialize(symbol)
@@ -17,7 +17,7 @@ class WebPlayer
     chosen_move
   end
 
-  def is_ready?
+  def ready?
     position.nil? ? false : true
   end
 

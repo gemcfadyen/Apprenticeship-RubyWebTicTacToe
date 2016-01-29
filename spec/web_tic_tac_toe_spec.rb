@@ -1,16 +1,16 @@
-require 'web_game'
+require 'web_tic_tac_toe'
+require 'web_player_factory'
+require 'board'
+require 'web_human_player'
 
-RSpec.describe WebGame do
-  let(:web_game) { WebGame.new }
-  it "updates empty board at given index with player X symbol" do
-    updated_board = web_game.make_move(Board.new, 1)
+RSpec.describe WebTicTacToe do
+
+  let(:web_game) { WebTicTacToe.new(WebPlayerFactory.new) }
+
+  it "starts game and takes first move" do
+    updated_board = web_game.play(1, Board.new)
+
     expect(updated_board.get_symbol_at(1)).to eq PlayerSymbols::X
-  end
-
-  it "updates the board at given index with player O symbol" do
-    board = Board.new([PlayerSymbols::X, nil, nil, nil, nil, nil, nil,nil, nil])
-    updated_board = web_game.make_move(board, 3)
-    expect(updated_board.get_symbol_at(3)).to eq PlayerSymbols::O
   end
 
   it "prints winning status of the game" do
