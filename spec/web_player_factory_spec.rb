@@ -4,7 +4,7 @@ require 'player_options'
 RSpec.describe WebPlayerFactory do
   it "creates two web players" do
     players = WebPlayerFactory.new.create_players(PlayerOptions::HUMAN_VS_HUMAN, nil)
-    expect(players[0].class).to be WebHumanPlayer
+    expect(players.first.class).to be WebHumanPlayer
   end
 end
 

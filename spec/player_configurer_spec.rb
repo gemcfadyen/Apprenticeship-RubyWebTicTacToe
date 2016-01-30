@@ -1,14 +1,15 @@
+require 'board'
 require 'player_configurer'
+require 'player_symbols'
 require 'web_human_player'
 require 'web_player_factory'
-require 'player_symbols'
-require 'board'
 
 RSpec.describe PlayerConfigurer do
   let (:player_factory) { instance_double(WebPlayerFactory) }
-  let (:player_configurer) { PlayerConfigurer.new(player_factory) }
   let (:player_one) { WebHumanPlayer.new(PlayerSymbols::X) }
   let (:player_two) { WebHumanPlayer.new(PlayerSymbols::O) }
+
+  let (:player_configurer) { PlayerConfigurer.new(player_factory) }
 
   it "preserves the order of the players when board is empty" do
     allow(player_factory).to receive(:create_players).and_return([player_one, player_two])

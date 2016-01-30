@@ -15,7 +15,7 @@ RSpec.describe WebTicTacToe do
     position = 8
     allow(player_configurer).to receive(:for).and_return(prepare_players_for_move(position))
 
-    web_parameters = {"move-taken" => position,  "grid" => "[:X, :O, 3, :X, :O, 6, 7, 8, 9]"}
+    web_parameters = { WebTicTacToe::MOVE => position,  WebTicTacToe::GRID => "[:X, :O, 3, :X, :O, 6, 7, 8, 9]"}
     game_state = web_game.play_ttt_using(web_parameters)
 
     expect(game_state.formatted_rows).to eq [[:X, :O, 3], [:X, :O, 6], [7, 8, :X]]
@@ -37,6 +37,7 @@ RSpec.describe WebTicTacToe do
     allow(player_configurer).to receive(:for).and_return(prepare_players_for_move(position))
 
     updated_board = web_game.play(position, Board.new)
+
     expect(updated_board.get_symbol_at(position)).to eq PlayerSymbols::X
   end
 

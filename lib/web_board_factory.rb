@@ -14,6 +14,7 @@ class WebBoardFactory < BoardFactory
   end
 
   private
+
   attr_reader :board_adapter
 end
 

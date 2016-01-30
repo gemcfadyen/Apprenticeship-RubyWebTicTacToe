@@ -8,9 +8,7 @@ class PlayerConfigurer
 
   def for(game_type, board, next_move)
     players = player_factory.create_players(game_type, unused_prompt)
-
-    next_player_symbol = next_players_symbol(board)
-    sorted_players = sort(players, next_player_symbol)
+    sorted_players = sort(players, next_players_symbol(board))
     sorted_players.first.set_move(next_move)
 
     sorted_players

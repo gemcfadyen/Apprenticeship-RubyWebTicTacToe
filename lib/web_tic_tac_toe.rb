@@ -1,11 +1,13 @@
-require 'web_board_factory'
-require 'player_symbols'
-require 'player_options'
-require 'player_configurer'
-require 'game_state'
 require 'game'
+require 'game_state'
+require 'player_configurer'
+require 'player_options'
+require 'player_symbols'
+require 'web_board_factory'
 
 class WebTicTacToe
+  GRID = 'grid'
+  MOVE = 'move-taken'
 
   def initialize(board_factory, grid_formatter, player_configurer)
     @board_factory = board_factory
@@ -14,8 +16,8 @@ class WebTicTacToe
   end
 
   def play_ttt_using(params)
-    board = board_factory.create_board(params['grid'])
-    selected_move = params['move-taken']
+    board = board_factory.create_board(params[GRID])
+    selected_move = params[MOVE]
     updated_board = selected_move.nil? ? board : play(selected_move.to_i - 1, board)
     GameState.new(grid_formatter.format(updated_board), PlayerSymbols::all, print_game_status(updated_board))
   end
