@@ -1,6 +1,6 @@
 require 'board'
 
-class OneIndexedGridFormatter
+class GridFormatter
 
   def format(board)
     rows = board.grid_for_display
