@@ -1,16 +1,27 @@
-require 'board'
+require 'web_board_factory'
 require 'player_symbols'
-require 'prepare_players_for_game'
-require 'web_display_to_board_adapter'
+require 'player_options'
+require 'player_configurer'
+require 'game_state'
+require 'game'
 
 class WebTicTacToe
 
-  def initialize(player_factory)
-    @player_factory = player_factory
+  def initialize(board_factory, grid_formatter, player_configurer)
+    @board_factory = board_factory
+    @grid_formatter = grid_formatter
+    @player_configurer = player_configurer
+  end
+
+  def play_ttt_using(params)
+    board = board_factory.create_board(params['grid'])
+    selected_move = params['move-taken']
+    updated_board = selected_move.nil? ? board : play(selected_move.to_i - 1, board)
+    GameState.new(grid_formatter.format(updated_board), PlayerSymbols::all, print_game_status(updated_board))
   end
 
   def play(move, board)
-    game = Game.new(board, PreparePlayersForGame.new.prepare(player_factory.create_players(PlayerOptions::HUMAN_VS_HUMAN, nil), board, move))
+    game = Game.new(board, player_configurer.for(PlayerOptions::HUMAN_VS_HUMAN, board, move))
     game.play
   end
 
@@ -25,6 +36,5 @@ class WebTicTacToe
   end
 
   private
-  attr_reader :player_factory
+  attr_reader :board_factory, :grid_formatter, :player_configurer
 end
-

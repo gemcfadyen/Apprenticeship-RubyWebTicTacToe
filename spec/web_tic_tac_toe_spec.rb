@@ -1,16 +1,43 @@
 require 'web_tic_tac_toe'
 require 'web_player_factory'
+require 'web_board_factory'
 require 'board'
 require 'web_human_player'
+require 'player_configurer'
+require 'grid_formatter'
+require 'web_display_to_board_adapter'
 
 RSpec.describe WebTicTacToe do
+  let(:player_configurer) { instance_double(PlayerConfigurer) }
+  let(:web_game) { WebTicTacToe.new(WebBoardFactory.new(WebDisplayToBoardAdapter.new), GridFormatter.new, player_configurer) }
 
-  let(:web_game) { WebTicTacToe.new(WebPlayerFactory.new) }
+  it "move taken by human player at given position" do
+    position = 8
+    allow(player_configurer).to receive(:for).and_return(prepare_players_for_move(position))
+
+    web_parameters = {"move-taken" => position,  "grid" => "[:X, :O, 3, :X, :O, 6, 7, 8, 9]"}
+    game_state = web_game.play_ttt_using(web_parameters)
+
+    expect(game_state.formatted_rows).to eq [[:X, :O, 3], [:X, :O, 6], [7, 8, :X]]
+    expect(game_state.valid_moves).to eq PlayerSymbols::all
+    expect(game_state.status).to eq nil
+  end
+
+  it "starts with no moves" do
+    web_parameters = {}
+    game_state = web_game.play_ttt_using(web_parameters)
+
+    expect(game_state.formatted_rows).to eq [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    expect(game_state.valid_moves).to eq PlayerSymbols::all
+    expect(game_state.status).to eq nil
+  end
 
   it "starts game and takes first move" do
-    updated_board = web_game.play(1, Board.new)
+   position = 1
+    allow(player_configurer).to receive(:for).and_return(prepare_players_for_move(position))
 
-    expect(updated_board.get_symbol_at(1)).to eq PlayerSymbols::X
+    updated_board = web_game.play(position, Board.new)
+    expect(updated_board.get_symbol_at(position)).to eq PlayerSymbols::X
   end
 
   it "prints winning status of the game" do
@@ -22,5 +49,13 @@ RSpec.describe WebTicTacToe do
   it "prints draw status of the game" do
     drawn_board = Board.new([PlayerSymbols::X, PlayerSymbols::O, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::O, PlayerSymbols::O, PlayerSymbols::X, PlayerSymbols::O])
     expect(web_game.print_game_status(drawn_board)).to eq "The game is a draw!"
+  end
+
+  def prepare_players_for_move(position)
+    player_one = WebHumanPlayer.new(PlayerSymbols::X)
+    player_two = WebHumanPlayer.new(PlayerSymbols::O)
+    player_one.set_move(position)
+
+    [player_one, player_two]
   end
 end

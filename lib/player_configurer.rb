@@ -1,14 +1,28 @@
 require 'player_symbols'
 
-class PreparePlayersForGame
-  def prepare(players, board, next_move)
+class PlayerConfigurer
+
+  def initialize(player_factory)
+    @player_factory = player_factory
+  end
+
+  def for(game_type, board, next_move)
+    players = player_factory.create_players(game_type, unused_prompt)
+
     next_player_symbol = next_players_symbol(board)
     sorted_players = sort(players, next_player_symbol)
     sorted_players.first.set_move(next_move)
+
     sorted_players
   end
 
   private
+
+  attr_reader :player_factory
+
+  def unused_prompt
+    nil
+  end
 
   def next_players_symbol(board)
     number_of_x = board.grid_for_display.flatten.count(PlayerSymbols::X)
