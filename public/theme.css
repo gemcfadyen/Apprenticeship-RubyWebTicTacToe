@@ -1,29 +1,36 @@
 body {
   background-image: url("background.jpg");
-  color: green;
   text-align: center;
+}
+
+h1 {
+  color: navy;
+  text-align: center;
+  padding-top: 0;
 }
 
 p {
   color: navy;
-  text-align: center;
 }
 
-
-table, td, tr {
+table, tr, td {
   text-align: center;
   color: green;
   table-layout: auto;
   border-collapse: collapse;
   border-spacing: 0.5rem;
-  width: 25%;
-  height: 25%;
   border: 1px solid green;
   margin-left:auto;
   margin-right:auto;
+}
 
+td {
+  width: 150px;
+  height: 150px;
 }
 
 a {
   color: green;
+  text-decoration: none;
+  display: block-inline;
 }

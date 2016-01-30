@@ -6,29 +6,28 @@
     <link rel='stylesheet' type='text/css' href="/theme.css" />
   </head>
 
-  <body class='container'>
-    <p>Welcome To Tic Tac Toe</p>
-
-    <table class="center">
-      <% @formatted_rows.each do |row| %>
-        <tr>
-          <% row.each do |cell| %>
-            <td>
-              <% if @valid_moves.include?(cell.to_s) %>
-                <%= cell.to_s %>
-             <% else %>
-               <% if @game_status.nil? %>
-             <a href="/next_move?move-taken=<%= cell.to_s %>&grid=<%=@formatted_rows.flatten.to_s.delete("\"")%>">
-             <% end %>
-               <%= cell.to_s %>
-             </td>
+  <body>
+    <h1>Welcome To Tic Tac Toe
+      <table>
+        <% @formatted_rows.each do |row| %>
+          <tr>
+            <% row.each do |cell| %>
+              <td>
+                <% if @valid_moves.include?(cell) %>
+                  <%= cell.to_s %>
+                <% else %>
+                  <% if @game_status.nil? %>
+                    <a href="/next_move?move-taken=<%= cell %>&grid=<%=@formatted_rows.flatten.to_s.delete("\"")%>">
+                    <% end %>
+                    <%= cell %>
+                  </td>
+                <% end %>
               <% end %>
-            <% end %>
-          </tr>
-        <% end %>
-      </table>
+            </tr>
+          <% end %>
+        </table>
 
-      <p><%= @game_status %></p>
+        <p><%= @game_status %></p>
 
-    </body>
-  </html>
+      </body>
+    </html>
