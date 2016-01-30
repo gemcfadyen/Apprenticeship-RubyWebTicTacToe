@@ -3,7 +3,7 @@
   <head>
     <meta charset='UTF-8' />
     <title>Tic Tac Toe</title>
-    <link rel='stylesheet' type='text/css' href="/css/theme.css" />
+    <link rel='stylesheet' type='text/css' href="/theme.css" />
   </head>
 
   <body>
@@ -19,10 +19,10 @@
                 <% else %>
                   <% if @game_status.nil? %>
                     <a href="/next_move?move-taken=<%= cell %>&grid=<%=@formatted_rows.flatten.to_s.delete("\"")%>">
-                      <%= cell %>
+                      <%= cell.to_i + 1 %>
                     </a>
                   <%else %>
-                    <%= cell %>
+                    <%= cell.to_i + 1 %>
                   <% end %>
                 <% end %>
               </td>

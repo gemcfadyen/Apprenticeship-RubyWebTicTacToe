@@ -18,7 +18,7 @@ class WebTicTacToe
   def play_ttt_using(params)
     board = board_factory.create_board(params[GRID])
     selected_move = params[MOVE]
-    updated_board = selected_move.nil? ? board : play(selected_move.to_i - 1, board)
+    updated_board = selected_move.nil? ? board : play(selected_move.to_i, board)
     GameState.new(grid_formatter.format(updated_board), PlayerSymbols::all, print_game_status(updated_board))
   end
 

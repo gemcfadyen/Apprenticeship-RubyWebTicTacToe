@@ -13,21 +13,22 @@ RSpec.describe WebTicTacToe do
 
   it "move taken by human player at given position" do
     position = 8
-    allow(player_configurer).to receive(:for).and_return(prepare_players_for_move(position))
+    expect(player_configurer).to receive(:for).with(PlayerOptions::HUMAN_VS_HUMAN, an_instance_of(Board), 8).and_return(prepare_players_for_move(position))
+    web_parameters = { WebTicTacToe::MOVE => position,  WebTicTacToe::GRID => "[:X, :O, 2, :X, :O, 5, 6, 7, 8]"}
 
-    web_parameters = { WebTicTacToe::MOVE => position,  WebTicTacToe::GRID => "[:X, :O, 3, :X, :O, 6, 7, 8, 9]"}
     game_state = web_game.play_ttt_using(web_parameters)
 
-    expect(game_state.formatted_rows).to eq [[:X, :O, 3], [:X, :O, 6], [7, 8, :X]]
+    expect(game_state.formatted_rows).to eq [[:X, :O, 2], [:X, :O, 5], [6, 7, :X]]
     expect(game_state.valid_moves).to eq PlayerSymbols::all
     expect(game_state.status).to eq nil
   end
 
   it "starts with no moves" do
     web_parameters = {}
+
     game_state = web_game.play_ttt_using(web_parameters)
 
-    expect(game_state.formatted_rows).to eq [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    expect(game_state.formatted_rows).to eq [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
     expect(game_state.valid_moves).to eq PlayerSymbols::all
     expect(game_state.status).to eq nil
   end
