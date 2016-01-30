@@ -84,6 +84,6 @@ RSpec.describe "ERB Views" do
   end
 
   def game_status_displayed(html)
-    html.css("p")[1].text
+    html.css("p").first.text
   end
 end

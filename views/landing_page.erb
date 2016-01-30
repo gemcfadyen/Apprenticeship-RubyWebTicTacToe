@@ -3,31 +3,35 @@
   <head>
     <meta charset='UTF-8' />
     <title>Tic Tac Toe</title>
-    <link rel='stylesheet' type='text/css' href="/theme.css" />
+    <link rel='stylesheet' type='text/css' href="/css/theme.css" />
   </head>
 
   <body>
     <h1>Welcome To Tic Tac Toe
+
       <table>
         <% @formatted_rows.each do |row| %>
           <tr>
             <% row.each do |cell| %>
               <td>
-                <% if @valid_moves.include?(cell) %>
-                  <%= cell.to_s %>
+                <% if @valid_moves.include?(cell.to_s) %>
+                  <%= cell %>
                 <% else %>
                   <% if @game_status.nil? %>
                     <a href="/next_move?move-taken=<%= cell %>&grid=<%=@formatted_rows.flatten.to_s.delete("\"")%>">
-                    <% end %>
+                      <%= cell %>
+                    </a>
+                  <%else %>
                     <%= cell %>
-                  </td>
+                  <% end %>
                 <% end %>
-              <% end %>
-            </tr>
-          <% end %>
-        </table>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
 
-        <p><%= @game_status %></p>
+      <p><%= @game_status %></p>
 
-      </body>
-    </html>
+    </body>
+  </html>
