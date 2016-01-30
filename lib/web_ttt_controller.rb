@@ -11,19 +11,14 @@ class WebTTTController < Sinatra::Base
   set :public_folder, File.dirname(__FILE__) + '/../public'
 
   get '/' do
-    game_state = WebTicTacToe.new(WebBoardFactory.new(WebDisplayToBoardAdapter.new), GridFormatter.new, PlayerConfigurer.new(WebPlayerFactory.new)).play_ttt_using(params)
+    @game_state = WebTicTacToe.new(WebBoardFactory.new(WebDisplayToBoardAdapter.new), GridFormatter.new, PlayerConfigurer.new(WebPlayerFactory.new)).play_ttt_using(params)
 
-    @formatted_rows = game_state.formatted_rows
-    @valid_moves = game_state.valid_moves
     erb :landing_page
   end
 
   get '/next_move' do
-    game_state = WebTicTacToe.new(WebBoardFactory.new(WebDisplayToBoardAdapter.new), GridFormatter.new, PlayerConfigurer.new(WebPlayerFactory.new)).play_ttt_using(params)
+    @game_state = WebTicTacToe.new(WebBoardFactory.new(WebDisplayToBoardAdapter.new), GridFormatter.new, PlayerConfigurer.new(WebPlayerFactory.new)).play_ttt_using(params)
 
-    @formatted_rows = game_state.formatted_rows
-    @valid_moves = game_state.valid_moves
-    @game_status = game_state.status
     erb :landing_page
   end
 end

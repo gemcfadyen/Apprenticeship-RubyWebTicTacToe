@@ -4,12 +4,12 @@ require 'erb'
 require 'nokogiri'
 require 'uri'
 require 'grid_formatter'
+require 'game_state'
 
 RSpec.describe "ERB Views" do
 
   it "displays empty cell in grid" do
-    @formatted_rows = GridFormatter.new.format(Board.new)
-    @valid_moves = PlayerSymbols::all
+    @game_state = GameState.new(GridFormatter.new.format(Board.new), PlayerSymbols::all, nil)
 
     html_doc = transform_to_html(load_template.result(binding()))
     first_cell = ahref_links(html_doc).first
@@ -18,8 +18,7 @@ RSpec.describe "ERB Views" do
   end
 
   it "sends back grid as zero indexed based" do
-    @formatted_rows = GridFormatter.new.format(Board.new)
-    @valid_moves = PlayerSymbols::all
+    @game_state = GameState.new(GridFormatter.new.format(Board.new), PlayerSymbols::all, nil)
 
     html_doc = transform_to_html(load_template.result(binding()))
     first_link = ahref_links(html_doc).first
@@ -29,9 +28,7 @@ RSpec.describe "ERB Views" do
   end
 
   it "sends move selected as zero index based" do
-    @formatted_rows = GridFormatter.new.format(Board.new)
-    @valid_moves = PlayerSymbols::all
-    @move = "1"
+    @game_state = GameState.new(GridFormatter.new.format(Board.new), PlayerSymbols::all, nil)
 
     html_doc = transform_to_html(load_template.result(binding()))
     first_link = ahref_links(html_doc).first
@@ -41,8 +38,7 @@ RSpec.describe "ERB Views" do
   end
 
   it "landing page with empty grid contains 9 links" do
-    @formatted_rows = GridFormatter.new.format(Board.new)
-    @valid_moves = PlayerSymbols::all
+    @game_state = GameState.new(GridFormatter.new.format(Board.new), PlayerSymbols::all, nil)
 
     html_doc = transform_to_html(load_template.result(binding()))
 
@@ -50,8 +46,7 @@ RSpec.describe "ERB Views" do
   end
 
   it "landing page only shows links for unoccupied cells" do
-    @formatted_rows = GridFormatter.new.format(Board.new([PlayerSymbols::X, nil, nil, PlayerSymbols::O, nil, nil, PlayerSymbols::O, nil, nil]))
-    @valid_moves = PlayerSymbols::all
+    @game_state = GameState.new(GridFormatter.new.format(Board.new([PlayerSymbols::X, nil, nil, PlayerSymbols::O, nil, nil, PlayerSymbols::O, nil, nil])), PlayerSymbols::all, nil)
 
     html_doc = transform_to_html(load_template.result(binding()))
 
@@ -59,8 +54,7 @@ RSpec.describe "ERB Views" do
   end
 
   it "landing page shows moves made" do
-    @formatted_rows = GridFormatter.new.format(Board.new([PlayerSymbols::X, nil, nil, PlayerSymbols::O, nil, nil, PlayerSymbols::O, nil, nil]))
-    @valid_moves = PlayerSymbols::all
+    @game_state = GameState.new(GridFormatter.new.format(Board.new([PlayerSymbols::X, nil, nil, PlayerSymbols::O, nil, nil, PlayerSymbols::O, nil, nil])), PlayerSymbols::all, nil)
 
     html_doc = transform_to_html(load_template.result(binding()))
 
@@ -69,9 +63,7 @@ RSpec.describe "ERB Views" do
   end
 
   it "landing page has no links when game is won" do
-    @formatted_rows = GridFormatter.new.format(Board.new([PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::O, nil, nil, PlayerSymbols::O, nil, nil]))
-    @valid_moves = PlayerSymbols::all
-    @game_status = "Winner"
+    @game_state = GameState.new(GridFormatter.new.format(Board.new([PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::O, nil, nil, PlayerSymbols::O, nil, nil])), PlayerSymbols::all, "Winner")
 
     html_doc = transform_to_html(load_template.result(binding()))
 
@@ -79,9 +71,7 @@ RSpec.describe "ERB Views" do
   end
 
   it "shows unoccupied cells as one indexed based when game is over" do
-    @formatted_rows = GridFormatter.new.format(Board.new([PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::O, nil, nil, PlayerSymbols::O, nil, nil]))
-    @valid_moves = PlayerSymbols::all
-    @game_status = "Winner"
+    @game_state = GameState.new(GridFormatter.new.format(Board.new([PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::O, nil, nil, PlayerSymbols::O, nil, nil])), PlayerSymbols::all, "Winner")
     html_doc = transform_to_html(load_template.result(binding()))
 
     table_entries = all_table_entries(html_doc)
@@ -93,9 +83,7 @@ RSpec.describe "ERB Views" do
   end
 
   it "landing page shows game status when it is set" do
-    @formatted_rows = GridFormatter.new.format(Board.new([PlayerSymbols::X, PlayerSymbols::O, PlayerSymbols::X, PlayerSymbols::O, PlayerSymbols::O, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::O]))
-    @valid_moves = PlayerSymbols::all
-    @game_status = "Draw"
+    @game_state = GameState.new(GridFormatter.new.format(Board.new([PlayerSymbols::X, PlayerSymbols::O, PlayerSymbols::X, PlayerSymbols::O, PlayerSymbols::O, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::O])), PlayerSymbols::all, "Draw")
 
     html_doc = transform_to_html(load_template.result(binding()))
 
@@ -103,9 +91,7 @@ RSpec.describe "ERB Views" do
   end
 
   it "landing page shows no status when game status is unset" do
-    @formatted_rows = GridFormatter.new.format(Board.new([nil, nil, nil, PlayerSymbols::O, PlayerSymbols::O, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::O]))
-    @valid_moves = PlayerSymbols::all
-    @game_status = nil
+    @game_state = GameState.new(GridFormatter.new.format(Board.new([nil, nil, nil, PlayerSymbols::O, PlayerSymbols::O, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::O])), PlayerSymbols::all, nil)
 
     html_doc = transform_to_html(load_template.result(binding()))
 

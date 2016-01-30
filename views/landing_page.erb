@@ -10,15 +10,15 @@
     <h1>Welcome To Tic Tac Toe
 
       <table>
-        <% @formatted_rows.each do |row| %>
+        <% @game_state.formatted_rows.each do |row| %>
           <tr>
             <% row.each do |cell| %>
               <td>
-                <% if @valid_moves.include?(cell.to_s) %>
+                <% if @game_state.valid_moves_includes?(cell.to_s) %>
                   <%= cell %>
                 <% else %>
-                  <% if @game_status.nil? %>
-                    <a href="/next_move?move-taken=<%= cell %>&grid=<%=@formatted_rows.flatten.to_s.delete("\"")%>">
+                  <% if !@game_state.status? %>
+                    <a href="/next_move?move-taken=<%= cell %>&grid=<%=@game_state.flatten_rows%>">
                       <%= cell.to_i + 1 %>
                     </a>
                   <%else %>
@@ -31,7 +31,7 @@
         <% end %>
       </table>
 
-      <p><%= @game_status %></p>
+      <p><%= @game_state.status%></p>
 
     </body>
   </html>
