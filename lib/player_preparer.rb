@@ -10,7 +10,8 @@ class PlayerPreparer
     players = player_factory.create_players(game_type, unused_prompt)
     sorted_players = sort(players, next_players_symbol(board))
     sorted_players.first.set_move(next_move)
-
+    # here i can have a move loader class 'factory' that does the pre-load move, so pass in another dependency to do this. it can take the game type and the first player and load if it is a human type
+    # maybe the sorting can also be in a separate class.  then this class just coordinates them all
     sorted_players
   end
 

@@ -6,7 +6,7 @@ require 'uri'
 require 'grid_formatter'
 require 'game_state'
 
-RSpec.describe "ERB Views" do
+RSpec.describe "Game ERB View" do
 
   it "displays empty cell in grid" do
     @game_state = GameState.new(GridFormatter.new.format(Board.new), PlayerSymbols::all, nil)
@@ -37,7 +37,7 @@ RSpec.describe "ERB Views" do
     expect(query_params['move-taken']).to eq ["0"]
   end
 
-  it "landing page with empty grid contains 9 links" do
+  it "game page with empty grid contains 9 links" do
     @game_state = GameState.new(GridFormatter.new.format(Board.new), PlayerSymbols::all, nil)
 
     html_doc = transform_to_html(load_template.result(binding()))
@@ -45,7 +45,7 @@ RSpec.describe "ERB Views" do
     expect(count_ahref_links(html_doc)).to eq 9
   end
 
-  it "landing page only shows links for unoccupied cells" do
+  it "game page only shows links for unoccupied cells" do
     @game_state = GameState.new(GridFormatter.new.format(Board.new([PlayerSymbols::X, nil, nil, PlayerSymbols::O, nil, nil, PlayerSymbols::O, nil, nil])), PlayerSymbols::all, nil)
 
     html_doc = transform_to_html(load_template.result(binding()))
@@ -53,7 +53,7 @@ RSpec.describe "ERB Views" do
     expect(count_ahref_links(html_doc)).to eq 6
   end
 
-  it "landing page shows moves made" do
+  it "game page shows moves made" do
     @game_state = GameState.new(GridFormatter.new.format(Board.new([PlayerSymbols::X, nil, nil, PlayerSymbols::O, nil, nil, PlayerSymbols::O, nil, nil])), PlayerSymbols::all, nil)
 
     html_doc = transform_to_html(load_template.result(binding()))
@@ -62,7 +62,7 @@ RSpec.describe "ERB Views" do
     expect(count_number_of("X", all_table_entries(html_doc))).to eq 1
   end
 
-  it "landing page has no links when game is won" do
+  it "game page has no links when game is won" do
     @game_state = GameState.new(GridFormatter.new.format(Board.new([PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::O, nil, nil, PlayerSymbols::O, nil, nil])), PlayerSymbols::all, "Winner")
 
     html_doc = transform_to_html(load_template.result(binding()))
@@ -82,7 +82,7 @@ RSpec.describe "ERB Views" do
     expect(table_entries.include?("9")).to be true
   end
 
-  it "landing page shows game status when it is set" do
+  it "game page shows game status when it is set" do
     @game_state = GameState.new(GridFormatter.new.format(Board.new([PlayerSymbols::X, PlayerSymbols::O, PlayerSymbols::X, PlayerSymbols::O, PlayerSymbols::O, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::O])), PlayerSymbols::all, "Draw")
 
     html_doc = transform_to_html(load_template.result(binding()))
@@ -90,7 +90,7 @@ RSpec.describe "ERB Views" do
     expect(game_status_displayed(html_doc)).to eq "Draw"
   end
 
-  it "landing page shows no status when game status is unset" do
+  it "game page shows no status when game status is unset" do
     @game_state = GameState.new(GridFormatter.new.format(Board.new([nil, nil, nil, PlayerSymbols::O, PlayerSymbols::O, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::X, PlayerSymbols::O])), PlayerSymbols::all, nil)
 
     html_doc = transform_to_html(load_template.result(binding()))
@@ -99,7 +99,7 @@ RSpec.describe "ERB Views" do
   end
 
   def load_template
-    ERB.new File.new("views/landing_page.erb").read
+    ERB.new File.new("views/game.erb").read
   end
 
   def transform_to_html(stream)

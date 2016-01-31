@@ -11,6 +11,11 @@ RSpec.describe WebTTTController do
     WebTTTController
   end
 
+  it "can successfully select player option" do
+    get '/player_options?type=1'
+    expect(last_response).to be_ok
+  end
+
   it "can successfully load landing page" do
     get '/'
     expect(last_response).to be_ok
