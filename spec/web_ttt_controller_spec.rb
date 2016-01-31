@@ -12,7 +12,7 @@ RSpec.describe WebTTTController do
   end
 
   it "can successfully select player option" do
-    get '/player_options?type=1'
+    post '/player_options'
     expect(last_response).to be_ok
   end
 

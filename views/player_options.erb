@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8' />
+    <title>Tic Tac Toe</title>
+    <link rel='stylesheet' type='text/css' href="/theme.css" />
+  </head>
+  <body>
+    <h1>Welcome To Tic Tac Toe
+
+      <p>Please Select A Player Option</p>
+
+      <form action='player_options' method='post'>
+      <ul>
+        <% @player_options.each do |id, player_type| %>
+          <li>
+          <label>
+            <input type='radio' name ='player_type' value ='<%= id %>' id = <%= id %>/>
+            <%= player_type %>
+          </label>
+          </li>
+        <% end %>
+      </ul>
+      <button type='submit' class='btn btn-primary'>Play</button>
+    </form>
+  </body>
+</html>

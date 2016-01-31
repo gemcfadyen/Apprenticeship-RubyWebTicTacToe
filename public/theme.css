@@ -7,15 +7,17 @@ h1 {
   color: navy;
   text-align: center;
   padding-top: 0;
+  font-size: 20px;
 }
 
 p {
   color: navy;
+  font-size: 30px;
 }
 
 table, tr, td {
-  text-align: center;
   color: green;
+  text-align: center;
   table-layout: auto;
   border-collapse: collapse;
   border-spacing: 0.5rem;
@@ -34,3 +36,28 @@ a {
   text-decoration: none;
   display: block-inline;
 }
+
+button {
+  color: navy
+  background-color: green
+}
+
+li {
+  list-style-position:inside
+}
+
+input[type=radio]: {
+  width   : 28px;
+  margin  : 0;
+  padding : 0;
+}
+
+
+ul {
+  list-style: none;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+

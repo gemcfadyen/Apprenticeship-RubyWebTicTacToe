@@ -11,10 +11,11 @@ class WebTTTController < Sinatra::Base
   set :public_folder, File.dirname(__FILE__) + '/../public'
 
   get '/' do
+    @player_options = PlayerOptions::all
     erb :player_options
   end
 
-  get '/player_options' do
+  post '/player_options' do
     @game_state = WebTicTacToe.new(WebBoardFactory.new(WebDisplayToBoardAdapter.new), GridFormatter.new, PlayerPreparer.new(WebPlayerFactory.new)).play_ttt_using(params)
     erb :game
   end
