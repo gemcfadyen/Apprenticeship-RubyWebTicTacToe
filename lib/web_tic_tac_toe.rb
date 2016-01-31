@@ -7,6 +7,7 @@ require 'web_board_factory'
 class WebTicTacToe
   GRID = 'grid'
   MOVE = 'move-taken'
+  PLAYER_OPTION = 'player_type'
 
   def initialize(board_factory, grid_formatter, player_preparer)
     @board_factory = board_factory
@@ -15,15 +16,12 @@ class WebTicTacToe
   end
 
   def play_ttt_using(params)
-    board = board_factory.create_board(params[GRID])
-    selected_move = params[MOVE]
-    #want tojust say play here, as the preloading move will be handled by the player configurer new dependency. pull the player configuerer up to here and just pas the players inot the play function for clarity
-    updated_board = selected_move.nil? ? board : play(selected_move.to_i, board)
-    GameState.new(grid_formatter.format(updated_board), PlayerSymbols::all, print_game_status(updated_board))
+    updated_board = play(current_board(params), ordered_players(params))
+    game_state_based_on(updated_board)
   end
 
-  def play(move, board)
-    game = Game.new(board, player_preparer.for(PlayerOptions::HUMAN_VS_HUMAN, board, move))
+  def play(board, players)
+    game = Game.new(board, players)
     game.play
   end
 
@@ -38,5 +36,30 @@ class WebTicTacToe
   end
 
   private
+
   attr_reader :board_factory, :grid_formatter, :player_preparer
+
+  def current_board(params)
+    board_factory.create_board(params[GRID])
+  end
+
+  def ordered_players(params)
+    player_preparer.for(selected_player_option(params), current_board(params), selected_move(params))
+  end
+
+  def selected_player_option(params)
+    PlayerOptions::get_player_type_for_id(selected_player_type(params).to_i)
+  end
+
+  def selected_move(params)
+    params[MOVE]
+  end
+
+  def selected_player_type(params)
+    params[PLAYER_OPTION]
+  end
+
+  def game_state_based_on(updated_board)
+    GameState.new(grid_formatter.format(updated_board), PlayerSymbols::all, print_game_status(updated_board))
+  end
 end

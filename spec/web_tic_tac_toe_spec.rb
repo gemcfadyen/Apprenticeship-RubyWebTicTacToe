@@ -11,10 +11,19 @@ RSpec.describe WebTicTacToe do
   let(:player_preparer) { instance_double(PlayerPreparer) }
   let(:web_game) { WebTicTacToe.new(WebBoardFactory.new(WebDisplayToBoardAdapter.new), GridFormatter.new, player_preparer) }
 
+  it "uses selected player option to create players" do
+    expect(player_preparer).to receive(:for).with(PlayerOptions::HUMAN_VS_AI, an_instance_of(Board), 1).and_return(prepare_players_for_move(1))
+
+    web_parameters = { WebTicTacToe::PLAYER_OPTION => "2", WebTicTacToe::MOVE => 1, WebTicTacToe::GRID => "[0, 1, 2, 3, 4, 5, 6, 7, 8]"}
+
+    game_state = web_game.play_ttt_using(web_parameters)
+  end
+
+
   it "move taken by human player at given position" do
     position = 8
-    expect(player_preparer).to receive(:for).with(PlayerOptions::HUMAN_VS_HUMAN, an_instance_of(Board), 8).and_return(prepare_players_for_move(position))
-    web_parameters = { WebTicTacToe::MOVE => position,  WebTicTacToe::GRID => "[:X, :O, 2, :X, :O, 5, 6, 7, 8]"}
+    expect(player_preparer).to receive(:for).with(PlayerOptions::HUMAN_VS_HUMAN, an_instance_of(Board), "8").and_return(prepare_players_for_move(position))
+    web_parameters = { WebTicTacToe::PLAYER_OPTION => "1", WebTicTacToe::MOVE => position.to_s,  WebTicTacToe::GRID => "[:X, :O, 2, :X, :O, 5, 6, 7, 8]"}
 
     game_state = web_game.play_ttt_using(web_parameters)
 
@@ -24,7 +33,8 @@ RSpec.describe WebTicTacToe do
   end
 
   it "starts with no moves" do
-    web_parameters = {}
+    allow(player_preparer).to receive(:for).and_return(prepare_players_for_move(nil))
+    web_parameters = { WebTicTacToe::PLAYER_OPTION => "1" }
 
     game_state = web_game.play_ttt_using(web_parameters)
 
@@ -34,10 +44,11 @@ RSpec.describe WebTicTacToe do
   end
 
   it "starts game and takes first move" do
-   position = 1
-    allow(player_preparer).to receive(:for).and_return(prepare_players_for_move(position))
+    position = 1
+    players = prepare_players_for_move(position)
+    allow(player_preparer).to receive(:for).and_return(players)
 
-    updated_board = web_game.play(position, Board.new)
+    updated_board = web_game.play(Board.new, players)
 
     expect(updated_board.get_symbol_at(position)).to eq PlayerSymbols::X
   end

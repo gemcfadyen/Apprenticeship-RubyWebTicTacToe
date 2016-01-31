@@ -1,4 +1,5 @@
 require 'board'
+require 'move_loader'
 require 'player_preparer'
 require 'player_symbols'
 require 'web_human_player'
@@ -9,7 +10,7 @@ RSpec.describe PlayerPreparer do
   let (:player_one) { WebHumanPlayer.new(PlayerSymbols::X) }
   let (:player_two) { WebHumanPlayer.new(PlayerSymbols::O) }
 
-  let (:player_preparer) { PlayerPreparer.new(player_factory) }
+  let (:player_preparer) { PlayerPreparer.new(player_factory, MoveLoader.new) }
 
   it "preserves the order of the players when board is empty" do
     allow(player_factory).to receive(:create_players).and_return([player_one, player_two])
