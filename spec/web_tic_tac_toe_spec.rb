@@ -3,17 +3,17 @@ require 'web_player_factory'
 require 'web_board_factory'
 require 'board'
 require 'web_human_player'
-require 'player_configurer'
+require 'player_preparer'
 require 'grid_formatter'
 require 'web_display_to_board_adapter'
 
 RSpec.describe WebTicTacToe do
-  let(:player_configurer) { instance_double(PlayerConfigurer) }
-  let(:web_game) { WebTicTacToe.new(WebBoardFactory.new(WebDisplayToBoardAdapter.new), GridFormatter.new, player_configurer) }
+  let(:player_preparer) { instance_double(PlayerPreparer) }
+  let(:web_game) { WebTicTacToe.new(WebBoardFactory.new(WebDisplayToBoardAdapter.new), GridFormatter.new, player_preparer) }
 
   it "move taken by human player at given position" do
     position = 8
-    expect(player_configurer).to receive(:for).with(PlayerOptions::HUMAN_VS_HUMAN, an_instance_of(Board), 8).and_return(prepare_players_for_move(position))
+    expect(player_preparer).to receive(:for).with(PlayerOptions::HUMAN_VS_HUMAN, an_instance_of(Board), 8).and_return(prepare_players_for_move(position))
     web_parameters = { WebTicTacToe::MOVE => position,  WebTicTacToe::GRID => "[:X, :O, 2, :X, :O, 5, 6, 7, 8]"}
 
     game_state = web_game.play_ttt_using(web_parameters)
@@ -35,7 +35,7 @@ RSpec.describe WebTicTacToe do
 
   it "starts game and takes first move" do
    position = 1
-    allow(player_configurer).to receive(:for).and_return(prepare_players_for_move(position))
+    allow(player_preparer).to receive(:for).and_return(prepare_players_for_move(position))
 
     updated_board = web_game.play(position, Board.new)
 

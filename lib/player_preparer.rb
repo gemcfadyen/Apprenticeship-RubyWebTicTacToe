@@ -1,6 +1,6 @@
 require 'player_symbols'
 
-class PlayerConfigurer
+class PlayerPreparer
 
   def initialize(player_factory)
     @player_factory = player_factory
