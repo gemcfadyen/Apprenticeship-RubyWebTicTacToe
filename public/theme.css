@@ -1,29 +1,63 @@
 body {
   background-image: url("background.jpg");
-  color: green;
   text-align: center;
+}
+
+h1 {
+  color: navy;
+  text-align: center;
+  padding-top: 0;
+  font-size: 20px;
 }
 
 p {
   color: navy;
-  text-align: center;
+  font-size: 30px;
 }
 
-
-table, td, tr {
-  text-align: center;
+table, tr, td {
   color: green;
+  text-align: center;
   table-layout: auto;
   border-collapse: collapse;
   border-spacing: 0.5rem;
-  width: 25%;
-  height: 25%;
   border: 1px solid green;
   margin-left:auto;
   margin-right:auto;
+}
 
+td {
+  width: 150px;
+  height: 150px;
 }
 
 a {
   color: green;
+  text-decoration: none;
+  display: block-inline;
 }
+
+button {
+  color: navy
+  background-color: green
+}
+
+li {
+  list-style-position:inside
+}
+
+input[type=radio]: {
+  width   : 28px;
+  margin  : 0;
+  padding : 0;
+}
+
+
+ul {
+  list-style: none;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+

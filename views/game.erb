@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8' />
+    <title>Tic Tac Toe</title>
+    <link rel='stylesheet' type='text/css' href="/theme.css" />
+  </head>
+
+  <body>
+    <h1>Welcome To Tic Tac Toe
+
+      <table>
+        <% @game_state.formatted_rows.each do |row| %>
+          <tr>
+            <% row.each do |cell| %>
+              <td>
+                <% if @game_state.valid_moves_includes?(cell.to_s) %>
+                  <%= cell %>
+                <% else %>
+                  <% if !@game_state.status? %>
+                    <a href="/next_move?move-taken=<%= cell %>&grid=<%=@game_state.flatten_rows%>">
+                      <%= cell.to_i + 1 %>
+                    </a>
+                  <%else %>
+                    <%= cell.to_i + 1 %>
+                  <% end %>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
+
+      <p><%= @game_state.status%></p>
+
+    </body>
+  </html>
