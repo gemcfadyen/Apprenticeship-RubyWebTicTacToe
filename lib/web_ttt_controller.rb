@@ -10,7 +10,7 @@ require 'web_tic_tac_toe'
 class WebTTTController < Sinatra::Base
   set :views, File.dirname(__FILE__) + '/../views'
   set :public_folder, File.dirname(__FILE__) + '/../public'
-  set(:css_dir) { File.join(views, 'css') }
+#  set :css_dir, File.dirname(__FILE__) + '/../public/css'
   enable :sessions
 
   get '/' do
