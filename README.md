@@ -1,5 +1,7 @@
 # Sinatra Web Application for Tic Tac Toe
 
+[![Build Status](https://travis-ci.org/gemcfadyen/Apprenticeship-RubyWebTicTacToe.svg?branch=master)](https://travis-ci.org/gemcfadyen/Apprenticeship-RubyWebTicTacToe)   [![Coverage Status](https://coveralls.io/repos/github/gemcfadyen/Apprenticeship-RubyWebTicTacToe/badge.svg?branch=master)](https://coveralls.io/github/gemcfadyen/Apprenticeship-RubyWebTicTacToe?branch=master)
+
 To play Tic Tac Toe through a browser, clone the repository into a folder
 >> git clone git@github.com:gemcfadyen/Apprenticeship-RubyWebTicTacToe.git
 
