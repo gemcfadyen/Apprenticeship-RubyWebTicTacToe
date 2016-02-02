@@ -42,18 +42,20 @@ GEM
       eventmachine (~> 1.0, >= 1.0.4)
       rack (~> 1.0)
     tilt (2.0.2)
+    ttt-core (0.0.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  nokogiri
-  rack-test
-  rake
-  rspec
-  simplecov
-  sinatra
-  thin
+  nokogiri (= 1.6.7.2)
+  rack-test (= 0.6.3)
+  rake (= 10.5.0)
+  rspec (= 3.4.0)
+  simplecov (= 0.11.1)
+  sinatra (= 1.4.6)
+  thin (= 1.6.4)
+  ttt-core (= 0.0.1)
 
 BUNDLED WITH
    1.11.2
