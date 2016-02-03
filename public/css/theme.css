@@ -1,5 +1,5 @@
 body {
-  background-image: url("background.jpg");
+  background-image: url("../background.jpg");
   text-align: center;
 }
 
@@ -29,6 +29,7 @@ table, tr, td {
 td {
   width: 150px;
   height: 150px;
+  font-size: 2em;
 }
 
 a {
@@ -38,7 +39,7 @@ a {
   height: 100%;
   width: 100%;
   display: flex;
-  align-items:center;
+  align-items: center;
   justify-content: center;
 }
 
